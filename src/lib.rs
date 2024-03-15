@@ -20,7 +20,7 @@ pub mod fil{
         // get list of all file name in target dir to compare which ones are new
         let files_in_target: Vec<PathBuf> = 
         target_iter.filter_map(Result::ok).map(|f| f.path()).collect();
-        dbg!(&files_in_target);
+        // dbg!(&files_in_target);
 
         // check which files do not exist, create new file and copy
         'outer: for src_file in src_iter.map(|x| x.unwrap()){
@@ -139,3 +139,5 @@ pub mod fil{
         Ok(())
     }
 }
+
+pub mod log;

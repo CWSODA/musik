@@ -1,0 +1,18 @@
+
+Items added:
+/Users/admin/rust_projects/musik/future/f2
+/Users/admin/rust_projects/musik/future/f2/some.txt
+/Users/admin/rust_projects/musik/future/f2/special.txt
+/Users/admin/rust_projects/musik/future/頑張れ.txt
+/Users/admin/rust_projects/musik/future/bobby.txt
+/Users/admin/rust_projects/musik/future/f1/unique.txt
+/Users/admin/rust_projects/musik/future/f1/special.txt
+
+Items to be deleted:
+/Users/admin/rust_projects/musik/future/f2
+/Users/admin/rust_projects/musik/future/f2/some.txt
+/Users/admin/rust_projects/musik/future/f2/special.txt
+/Users/admin/rust_projects/musik/future/頑張れ.txt
+/Users/admin/rust_projects/musik/future/bobby.txt
+/Users/admin/rust_projects/musik/future/f1/unique.txt
+/Users/admin/rust_projects/musik/future/f1/special.txt
