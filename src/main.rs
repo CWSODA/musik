@@ -6,16 +6,17 @@ fn main() {
     let mut added_items = Vec::new();
 
     println!(">>> Welcome to bad file manager!");
-    println!(">>> Please enter command: \n");
 
     loop{
         let mut input = String::new();
+        println!(">>> Please enter command: \n");
         io::stdin().read_line(&mut input).expect("cmd broken");
+        let input = input.trim();
 
         match &input[..]{
             "run" => run(&mut added_items),
             "undo" => undo(&mut added_items),
-            _ => println!("invalid command")
+            _ => println!("invalid command, try again")
         }
     }
 
@@ -35,7 +36,9 @@ fn run(added_items: &mut Vec<PathBuf>){
 }
 
 fn undo(targets: &mut Vec<PathBuf>){
+    dbg!(&targets);
     if let Err(msg) = delete_files(targets){
         eprint!("!!! Error: {msg}")
     }
+    println!("Files deleted!");
 }
