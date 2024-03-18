@@ -2,6 +2,7 @@ pub mod fil{
     use std::path::Path;
     use std::path::PathBuf;
     use std::fs::ReadDir;
+    use super::log::*;
 
     /*
     TODO
@@ -75,6 +76,7 @@ pub mod fil{
 
         // create and log created file
         if let Err(_) = std::fs::File::create(target){return Err("cannot create new file")}
+        log(&format!("Created file: {}", target.display()));
         added_items.push(target.to_path_buf());
 
         // copy file
@@ -90,7 +92,9 @@ pub mod fil{
 
         // create new dir and log, then get iter
         if let Err(_) = std::fs::create_dir(target){ return Err("cannot create new file") }
+        log(&format!("Created directory: {}", target.display()));
         added_items.push(target.to_path_buf());
+
         let Ok(src_dir) = get_dir_iter(src) else { return Err("cannot get copying dir") };
 
         for file in src_dir.map(|x| x.unwrap()){
@@ -126,11 +130,13 @@ pub mod fil{
                 if let Err(_) = std::fs::remove_dir(file){
                     return Err("unable to delete directory");
                 }
+                log(&format!("Deleted directory: {}", file.display()));
             }
             else{
                 if let Err(_) = std::fs::remove_file(file){
                     return Err("unable to delete file");
                 }
+                log(&format!("Deleted file: {}", file.display()));
             }
         }
 
