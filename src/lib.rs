@@ -14,6 +14,9 @@ pub mod fil{
 
     pub fn copy_over(src: &Path, target: &Path, tgt_ext: &Vec<&'static str>, added_items: &mut Vec<PathBuf>) 
     -> Result<(),&'static str>{
+        if target.starts_with(src){
+            return Err("Target directory within source directory");
+        }
 
         let src_iter = get_dir_iter(src)?;
         let target_iter = get_dir_iter(target)?;
@@ -76,7 +79,7 @@ pub mod fil{
 
         // create and log created file
         if let Err(_) = std::fs::File::create(target){return Err("cannot create new file")}
-        log(&format!("Created file: {}", target.display()));
+        log(&format!(">> Created file: {}", target.display()));
         added_items.push(target.to_path_buf());
 
         // copy file
@@ -92,7 +95,7 @@ pub mod fil{
 
         // create new dir and log, then get iter
         if let Err(_) = std::fs::create_dir(target){ return Err("cannot create new file") }
-        log(&format!("Created directory: {}", target.display()));
+        log(&format!(">> Created directory: {}", target.display()));
         added_items.push(target.to_path_buf());
 
         let Ok(src_dir) = get_dir_iter(src) else { return Err("cannot get copying dir") };
@@ -130,13 +133,13 @@ pub mod fil{
                 if let Err(_) = std::fs::remove_dir(file){
                     return Err("unable to delete directory");
                 }
-                log(&format!("Deleted directory: {}", file.display()));
+                log(&format!(">> Deleted directory: {}", file.display()));
             }
             else{
                 if let Err(_) = std::fs::remove_file(file){
                     return Err("unable to delete file");
                 }
-                log(&format!("Deleted file: {}", file.display()));
+                log(&format!(">> Deleted file: {}", file.display()));
             }
         }
 
@@ -147,3 +150,5 @@ pub mod fil{
 }
 
 pub mod log;
+
+pub mod coms;
