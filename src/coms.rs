@@ -4,9 +4,9 @@ use super::fil::*;
 use std::io;
 
 pub fn run_with_path(added_items: &mut Vec<PathBuf>){
-    let Some(src) = get_dir("\nPlease enter SOURCE directory path:")
+    let Some(src) = get_dir("\n>>> Please enter SOURCE directory path:")
     else{ return };
-    let Some(target) = get_dir("\nPlease enter TARGET directory path:")
+    let Some(target) = get_dir("\n>>> Please enter TARGET directory path:")
     else{ return };
     
     run(Some(&src), Some(&target), added_items);
@@ -24,22 +24,24 @@ fn get_dir(msg: &str) -> Option<PathBuf>{
         let dir = Path::new(input);
         if dir.exists(){ return Some(dir.to_path_buf()) }
         else{
-            println!("Cannot find path, try again!");
+            println!("> Cannot find path, try again!");
         }
     }
 
 }
 
+// /Users/admin/Downloads
+// /Users/admin/Desktop/wow
 pub fn run(src_dir: Option<&Path>, tgt_dir: Option<&Path>, added_items: &mut Vec<PathBuf>){
     let timer = std::time::Instant::now();
 
     let src_dir = match src_dir{
         Some(src) => src,
-        None => Path::new("/Users/admin/rust_projects/musik/origin"),
+        None => Path::new("/Users/admin/Downloads"),
     };
     let tgt_dir = match tgt_dir{
         Some(target) => target,
-        None => Path::new("/Users/admin/rust_projects/musik/future"),
+        None => Path::new("/Users/admin/Desktop/wow"),
     };
     let tgt_ext = vec!["txt", "mp3"];
 
@@ -60,7 +62,7 @@ pub fn run(src_dir: Option<&Path>, tgt_dir: Option<&Path>, added_items: &mut Vec
         print_and_log_err(msg);
     }
     else{
-        print_and_log(&format!("Successfully ran in {}ms!!!", timer.elapsed().as_millis()) );
+        print_and_log(&format!("> Successfully ran in {}ms!!!", timer.elapsed().as_millis()) );
     }
 }
 
@@ -68,31 +70,32 @@ pub fn undo(targets: &mut Vec<PathBuf>){
     let timer = std::time::Instant::now();
 
     if targets.is_empty(){ 
-        println!("Nothing to undo!");
+        println!("> Nothing to undo!");
         return;
     }
 
     log("Started undo: ");
     if let Err(msg) = delete_files(targets){
-        print_and_log_err(msg);
+        print_and_log_err(&msg);
     }
     else{
-        print_and_log(&format!("Successfully removed added items in {}ms!!!", timer.elapsed().as_millis()) );
+        print_and_log(&format!("> Successfully removed added items in {}ms!!!", timer.elapsed().as_millis()) );
     }
 }
 
-pub fn show_added(items: &Vec<PathBuf>){
+pub fn show_added(amount: Option<u16>, items: &Vec<PathBuf>){
     if items.len() == 0 {
-        println!("No added items");
+        println!("> No added items");
         return;
     }
     let mut count = 0;
+    let amount = amount.unwrap_or(10);
 
     for item in items{
         println!(">>> {}", item.display());
         count += 1;
 
-        if count >= 10{
+        if count >= amount{
             println!(">>> ... (see log for more)");
             return;
         }

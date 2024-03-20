@@ -127,17 +127,19 @@ pub mod fil{
     // directory is added, then files inside
     // reversing iter allows files to be deleted first before directory 
     // so path to inner files wont be invalidated if directory is deleted
-    pub fn delete_files(targets: &mut Vec<PathBuf>) -> Result<(), &'static str> {
+    pub fn delete_files<'a> (targets: &'a mut Vec<PathBuf>) -> Result<(), String> {
         for file in targets.iter().rev(){
             if file.is_dir() {
                 if let Err(_) = std::fs::remove_dir(file){
-                    return Err("unable to delete directory");
+                    return Err( format!("unable to delete directory: {}", 
+                    file.file_name().unwrap().to_str().unwrap()) );
                 }
                 log(&format!(">> Deleted directory: {}", file.display()));
             }
             else{
                 if let Err(_) = std::fs::remove_file(file){
-                    return Err("unable to delete file");
+                    return Err(format!("unable to delete file: {}", 
+                    file.file_name().unwrap().to_str().unwrap()));
                 }
                 log(&format!(">> Deleted file: {}", file.display()));
             }
