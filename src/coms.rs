@@ -3,13 +3,13 @@ use super::log::*;
 use super::fil::*;
 use std::io;
 
-pub fn run_with_path(added_items: &mut Vec<PathBuf>){
+pub fn run_with_path(added_items: &mut Vec<PathBuf>, is_copy_empty: bool){
     let Some(src) = get_dir("\n>>> Please enter SOURCE directory path:")
     else{ return };
     let Some(target) = get_dir("\n>>> Please enter TARGET directory path:")
     else{ return };
     
-    run(Some(&src), Some(&target), added_items);
+    run(Some(&src), Some(&target), added_items, is_copy_empty);
 }
 
 fn get_dir(msg: &str) -> Option<PathBuf>{
@@ -32,7 +32,7 @@ fn get_dir(msg: &str) -> Option<PathBuf>{
 
 // /Users/admin/Downloads
 // /Users/admin/Desktop/wow
-pub fn run(src_dir: Option<&Path>, tgt_dir: Option<&Path>, added_items: &mut Vec<PathBuf>){
+pub fn run(src_dir: Option<&Path>, tgt_dir: Option<&Path>, added_items: &mut Vec<PathBuf>, is_copy_empty: bool){
     let timer = std::time::Instant::now();
 
     let src_dir = match src_dir{
@@ -58,8 +58,8 @@ pub fn run(src_dir: Option<&Path>, tgt_dir: Option<&Path>, added_items: &mut Vec
 
     log(&msg);
 
-    if let Err(msg) = copy_over(&src_dir, &tgt_dir, &tgt_ext, added_items){
-        print_and_log_err(msg);
+    if let Err(msg) = copy_over(&src_dir, &tgt_dir, &tgt_ext, added_items, is_copy_empty){
+        print_and_log_err(&msg);
     }
     else{
         print_and_log(&format!("> Successfully ran in {}ms!!!", timer.elapsed().as_millis()) );
