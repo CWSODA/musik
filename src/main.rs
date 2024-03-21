@@ -26,7 +26,7 @@ fn main() {
                 "undo" => undo(input_words, &mut added_items),
                 "show_added" => show_added(input_words, &added_items),
                 "quit" => if quit(input_words) { return },
-                _ => println!("> Invalid command or too many args, try again"),
+                _ => println!("> Invalid command, please try again"),
             }
         }
         else{
