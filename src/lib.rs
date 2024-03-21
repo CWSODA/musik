@@ -167,16 +167,14 @@ pub mod fil{
 
             if file.is_dir() {
                 if let Err(why) = std::fs::remove_dir(file){
-                    println!("{why}");
-                    return Err( format!("Unable to delete directory: {}", file.display()) );
+                    return Err( format!("Unable to delete directory: {}\n{why}", file.display()) );
                 }
                 targets.pop();
                 log(&format!(">> Deleted directory: {}", file.display()));
             }
             else{
                 if let Err(why) = std::fs::remove_file(file){
-                    println!("{why}");
-                    return Err(format!("Unable to delete file: {}", file.display()) );
+                    return Err(format!("Unable to delete file: {}\n{why}", file.display()) );
                 }
                 targets.pop();
                 log(&format!(">> Deleted file: {}", file.display()));
