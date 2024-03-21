@@ -30,18 +30,17 @@ fn get_dir(msg: &str) -> Option<PathBuf>{
 
 }
 
-// /Users/admin/Downloads
-// /Users/admin/Desktop/wow
 pub fn run(src_dir: Option<&Path>, tgt_dir: Option<&Path>, added_items: &mut Vec<PathBuf>, is_copy_empty: bool){
     let timer = std::time::Instant::now();
 
+    // some default paths for testing if no options given
     let src_dir = match src_dir{
         Some(src) => src,
-        None => Path::new("/Users/admin/Downloads"),
+        None => Path::new("origin"),
     };
     let tgt_dir = match tgt_dir{
         Some(target) => target,
-        None => Path::new("/Users/admin/Desktop/wow"),
+        None => Path::new("future"),
     };
     let tgt_ext = vec!["txt", "mp3"];
 
